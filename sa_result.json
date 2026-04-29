@@ -1,0 +1,316 @@
+{
+  "algorithm": "SA",
+  "hyperparameters": {
+    "n_select": 50,
+    "t_start": 5.0,
+    "t_end": 0.001,
+    "n_steps": 50000,
+    "alpha": 0.99982967
+  },
+  "best_score": 302.30670000000015,
+  "n_improvements": 7046,
+  "score_history": [
+    {
+      "step": 5000,
+      "temperature": 2.133404,
+      "best_score": 283.6425
+    },
+    {
+      "step": 10000,
+      "temperature": 0.910282,
+      "best_score": 287.8821
+    },
+    {
+      "step": 15000,
+      "temperature": 0.3884,
+      "best_score": 293.6676
+    },
+    {
+      "step": 20000,
+      "temperature": 0.165723,
+      "best_score": 299.326
+    },
+    {
+      "step": 25000,
+      "temperature": 0.070711,
+      "best_score": 301.326
+    },
+    {
+      "step": 30000,
+      "temperature": 0.030171,
+      "best_score": 301.9828
+    },
+    {
+      "step": 35000,
+      "temperature": 0.012873,
+      "best_score": 302.2026
+    },
+    {
+      "step": 40000,
+      "temperature": 0.005493,
+      "best_score": 302.268
+    },
+    {
+      "step": 45000,
+      "temperature": 0.002344,
+      "best_score": 302.3067
+    },
+    {
+      "step": 50000,
+      "temperature": 0.001,
+      "best_score": 302.3067
+    }
+  ],
+  "best_locations": [
+    {
+      "lat": 26.3608,
+      "lon": 64.3545,
+      "solar_score": 5.9052
+    },
+    {
+      "lat": 27.3363,
+      "lon": 60.8729,
+      "solar_score": 5.8569
+    },
+    {
+      "lat": 27.3363,
+      "lon": 62.0334,
+      "solar_score": 5.9652
+    },
+    {
+      "lat": 27.3363,
+      "lon": 63.1939,
+      "solar_score": 6.0106
+    },
+    {
+      "lat": 27.3363,
+      "lon": 64.3545,
+      "solar_score": 5.9896
+    },
+    {
+      "lat": 27.3363,
+      "lon": 65.515,
+      "solar_score": 6.036
+    },
+    {
+      "lat": 28.3119,
+      "lon": 60.8729,
+      "solar_score": 5.9905
+    },
+    {
+      "lat": 28.3119,
+      "lon": 62.0334,
+      "solar_score": 5.8972
+    },
+    {
+      "lat": 28.3119,
+      "lon": 63.1939,
+      "solar_score": 5.9378
+    },
+    {
+      "lat": 28.3119,
+      "lon": 64.3545,
+      "solar_score": 5.9352
+    },
+    {
+      "lat": 28.3119,
+      "lon": 65.515,
+      "solar_score": 5.8999
+    },
+    {
+      "lat": 28.3119,
+      "lon": 66.6755,
+      "solar_score": 5.8734
+    },
+    {
+      "lat": 29.2874,
+      "lon": 60.8729,
+      "solar_score": 6.0224
+    },
+    {
+      "lat": 29.2874,
+      "lon": 62.0334,
+      "solar_score": 5.8576
+    },
+    {
+      "lat": 29.2874,
+      "lon": 63.1939,
+      "solar_score": 5.9899
+    },
+    {
+      "lat": 29.2874,
+      "lon": 64.3545,
+      "solar_score": 5.8983
+    },
+    {
+      "lat": 29.2874,
+      "lon": 65.515,
+      "solar_score": 5.8706
+    },
+    {
+      "lat": 29.2874,
+      "lon": 66.6755,
+      "solar_score": 6.1312
+    },
+    {
+      "lat": 30.2629,
+      "lon": 64.3545,
+      "solar_score": 5.9005
+    },
+    {
+      "lat": 30.2629,
+      "lon": 65.515,
+      "solar_score": 5.8981
+    },
+    {
+      "lat": 30.2629,
+      "lon": 66.6755,
+      "solar_score": 5.9448
+    },
+    {
+      "lat": 31.2385,
+      "lon": 66.6755,
+      "solar_score": 5.9011
+    },
+    {
+      "lat": 31.2385,
+      "lon": 67.8361,
+      "solar_score": 6.0015
+    },
+    {
+      "lat": 32.214,
+      "lon": 67.8361,
+      "solar_score": 5.8684
+    },
+    {
+      "lat": 33.1895,
+      "lon": 64.3545,
+      "solar_score": 6.0476
+    },
+    {
+      "lat": 33.1895,
+      "lon": 66.6755,
+      "solar_score": 6.0673
+    },
+    {
+      "lat": 33.1895,
+      "lon": 67.8361,
+      "solar_score": 5.9194
+    },
+    {
+      "lat": 33.1895,
+      "lon": 68.9966,
+      "solar_score": 5.9057
+    },
+    {
+      "lat": 33.1895,
+      "lon": 77.1204,
+      "solar_score": 6.5153
+    },
+    {
+      "lat": 34.1651,
+      "lon": 64.3545,
+      "solar_score": 5.9585
+    },
+    {
+      "lat": 34.1651,
+      "lon": 65.515,
+      "solar_score": 6.0319
+    },
+    {
+      "lat": 34.1651,
+      "lon": 66.6755,
+      "solar_score": 6.0332
+    },
+    {
+      "lat": 34.1651,
+      "lon": 67.8361,
+      "solar_score": 6.0705
+    },
+    {
+      "lat": 34.1651,
+      "lon": 75.9599,
+      "solar_score": 6.1145
+    },
+    {
+      "lat": 34.1651,
+      "lon": 77.1204,
+      "solar_score": 6.0152
+    },
+    {
+      "lat": 35.1406,
+      "lon": 65.515,
+      "solar_score": 6.048
+    },
+    {
+      "lat": 35.1406,
+      "lon": 66.6755,
+      "solar_score": 6.222
+    },
+    {
+      "lat": 35.1406,
+      "lon": 68.9966,
+      "solar_score": 5.8546
+    },
+    {
+      "lat": 35.1406,
+      "lon": 77.1204,
+      "solar_score": 6.6081
+    },
+    {
+      "lat": 36.1161,
+      "lon": 70.1572,
+      "solar_score": 6.0241
+    },
+    {
+      "lat": 36.1161,
+      "lon": 71.3177,
+      "solar_score": 6.1974
+    },
+    {
+      "lat": 36.1161,
+      "lon": 72.4782,
+      "solar_score": 6.2767
+    },
+    {
+      "lat": 36.1161,
+      "lon": 73.6388,
+      "solar_score": 5.8796
+    },
+    {
+      "lat": 36.1161,
+      "lon": 74.7993,
+      "solar_score": 6.2917
+    },
+    {
+      "lat": 36.1161,
+      "lon": 75.9599,
+      "solar_score": 6.5469
+    },
+    {
+      "lat": 36.1161,
+      "lon": 77.1204,
+      "solar_score": 6.4505
+    },
+    {
+      "lat": 37.0917,
+      "lon": 71.3177,
+      "solar_score": 5.9404
+    },
+    {
+      "lat": 37.0917,
+      "lon": 72.4782,
+      "solar_score": 6.4913
+    },
+    {
+      "lat": 37.0917,
+      "lon": 73.6388,
+      "solar_score": 6.0209
+    },
+    {
+      "lat": 37.0917,
+      "lon": 74.7993,
+      "solar_score": 6.1935
+    }
+  ]
+}

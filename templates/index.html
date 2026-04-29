@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Solar Panel Placement Optimizer</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="page">
+    <aside class="sidebar">
+      <div class="brand">
+        <p class="eyebrow">Solar Panel Placement Optimizer</p>
+        <h1>Pick the best 50 solar sites.</h1>
+        <p class="subhead">
+          Enter a country, run the full pipeline, and map the winning locations instantly.
+        </p>
+      </div>
+
+      <div class="hero-card">
+        <label class="field">
+          <span>Country</span>
+          <input id="countryInput" type="text" placeholder="Pakistan" />
+        </label>
+        <button id="runAllBtn" class="primary">Run All Algorithms</button>
+        <div id="status" class="status">Waiting for country...</div>
+      </div>
+
+      <section class="panel">
+        <h3>Result Summary</h3>
+        <div class="summary">
+          <div>
+            <div class="label">Winner</div>
+            <div id="winnerName" class="value">--</div>
+          </div>
+          <div>
+            <div class="label">Best Score</div>
+            <div id="winnerScore" class="value">--</div>
+          </div>
+          <div>
+            <div class="label">Locations</div>
+            <div id="winnerCount" class="value">0</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h3>Run Log</h3>
+        <pre id="log" class="log"></pre>
+      </section>
+    </aside>
+
+    <main class="map-shell">
+      <div class="map-head">
+        <h2>Winner Map</h2>
+        <p>Solar panel markers show the final winning locations.</p>
+      </div>
+      <div id="map"></div>
+    </main>
+  </div>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>

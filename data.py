@@ -217,14 +217,13 @@ def load_candidates(path="candidates.json"):
 # ─────────────────────────────────────────────
 # MAIN
 # ─────────────────────────────────────────────
-
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        country = " ".join(sys.argv[1:])
-    else:
-        country = input("Enter country name (e.g. 'Pakistan'): ").strip()
-        if not country:
-            country = "Pakistan"
+    if len(sys.argv) < 2:
+        print("Usage: python3 data.py <country>")
+        print("Example: python3 data.py Pakistan")
+        sys.exit(1)
+    
+    country = " ".join(sys.argv[1:])
 
     print("=" * 50)
     print(f"DAY 1 — DATA PIPELINE: {country.upper()}")
@@ -248,20 +247,19 @@ if __name__ == "__main__":
 
     scores = [c["solar_score"] for c in candidates]
     print(f"    Score range : {min(scores):.3f} – {max(scores):.3f} kWh/m2/day")
-    print(f"    Std dev     : {np.std(scores):.4f} (country variation)")
+    print(f"    Std dev     : {np.std(scores):.4f}")
 
     print("\n[4] Saving...")
     save_candidates(candidates, country)
 
+    scores = [c["solar_score"] for c in candidates]
     print(f"\n{'='*50}")
     print(f"COMPLETE — {country}")
     print(f"{'='*50}")
     print(f"  Total regions : {len(candidates)}")
     print(f"  Solar mean    : {np.mean(scores):.3f} kWh/m2/day")
     print(f"  Solar range   : {min(scores):.3f} – {max(scores):.3f}")
-    print(f"  Std dev       : {np.std(scores):.4f}")
     top5 = sorted(candidates, key=lambda x: x["solar_score"], reverse=True)[:5]
-    print(f"  Top 5 regions (highest solar potential):")
+    print(f"  Top 5 regions:")
     for loc in top5:
         print(f"    ({loc['lat']:.2f}°N, {loc['lon']:.2f}°E) → {loc['solar_score']} kWh/m2/day")
-    print("\nRun next: python3 day2_ga.py")

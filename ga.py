@@ -4,11 +4,13 @@ import json
 with open("candidates.json") as f:
     data = json.load(f)
 candidates = data["locations"]
+N_CANDIDATES = len(candidates)
+N_SELECT = 50
 
 # Build population
 population = []
 for _ in range(100):
-    selected = random.sample(range(225), 50)
+    selected = random.sample(range(N_CANDIDATES), N_SELECT)
     score = sum(candidates[idx]["solar_score"] for idx in selected)
     population.append({"selected": selected, "score": score})
 
@@ -18,19 +20,19 @@ def tournament_select(population, k=5):
 
 def crossover(parentA, parentB):
     pool = list(set(parentA["selected"] + parentB["selected"]))
-    if len(pool) >= 50:
-        child = random.sample(pool, 50)
+    if len(pool) >= N_SELECT:
+        child = random.sample(pool, N_SELECT)
     else:
-        extra = random.sample(range(225), 50 - len(pool))
+        extra = random.sample(range(N_CANDIDATES), N_SELECT - len(pool))
         child = pool + extra
     return child
 
 def mutate(child, mutation_rate=0.1):
     if random.random() < mutation_rate:
         # pick a random position in child to replace
-        remove_idx = random.randint(0, 49)
+        remove_idx = random.randint(0, N_SELECT - 1)
         # find all locations NOT in child
-        all_indices = set(range(225))
+        all_indices = set(range(N_CANDIDATES))
         not_selected = list(all_indices - set(child))
         # pick a random one to add
         new_loc = random.choice(not_selected)

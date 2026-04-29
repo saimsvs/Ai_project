@@ -5,7 +5,6 @@ import json
 N_PARTICLES   = 60      # swarm size
 N_GENERATIONS = 300     # iterations
 N_SELECT      = 50      # sites to pick per solution
-N_CANDIDATES  = 225     # total grid points
 V_MAX         = 0.4     # max velocity (clamps exploration)
 W_START       = 0.9     # inertia at generation 0  (high → explore)
 W_END         = 0.4     # inertia at last generation (low → exploit)
@@ -18,6 +17,7 @@ C2            = 1.5     # social acceleration
 with open("candidates.json") as f:
     data = json.load(f)
 candidates = data["locations"]   # list of {lat, lon, solar_score}
+N_CANDIDATES = len(candidates)
 
 
 # ── Helper: score a selection (list of indices) ──
