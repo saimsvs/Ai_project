@@ -3,6 +3,7 @@ import numpy as np
 import json
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # ─────────────────────────────────────────────
 # COUNTRY FALLBACKS
@@ -148,16 +149,24 @@ def fetch_all_scores(candidates):
     print(f"  Fetching solar data for {total} locations...")
     print(f"  Progress: ", end="", flush=True)
 
-    updated = []
+    updated = [None] * total
     sources = {"pvgis": 0, "open-meteo": 0, "failed": 0}
 
-    for i, loc in enumerate(candidates):
+    def task(idx, loc):
         score, source = fetch_solar_score(loc["lat"], loc["lon"])
-        sources[source] += 1
-        updated.append({"lat": loc["lat"], "lon": loc["lon"], "solar_score": score})
-        if (i + 1) % 25 == 0:
-            print(f"{i+1}/{total}", end=" ", flush=True)
-        time.sleep(0.05)
+        return idx, loc, score, source
+
+    max_workers = 25
+    completed = 0
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = [executor.submit(task, i, loc) for i, loc in enumerate(candidates)]
+        for future in as_completed(futures):
+            idx, loc, score, source = future.result()
+            sources[source] += 1
+            updated[idx] = {"lat": loc["lat"], "lon": loc["lon"], "solar_score": score}
+            completed += 1
+            if completed % 25 == 0:
+                print(f"{completed}/{total}", end=" ", flush=True)
 
     print()
     print(f"  PVGIS: {sources['pvgis']} | Open-Meteo: {sources['open-meteo']} | Failed: {sources['failed']}")
