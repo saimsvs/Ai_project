@@ -8,6 +8,12 @@ import webbrowser
 
 from flask import Flask, jsonify, render_template, request
 
+# Prefer the local venv interpreter when available.
+_BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+_VENV_PY = os.path.join(_BASE_DIR, ".venv", "bin", "python")
+if os.path.exists(_VENV_PY) and os.path.realpath(sys.executable) != os.path.realpath(_VENV_PY):
+    os.execv(_VENV_PY, [_VENV_PY] + sys.argv)
+
 # ─────────────────────────────────────────────
 # MAIN — Solar Panel Placement Optimizer
 # Runs: data pipeline → GA → PSO → SA

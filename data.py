@@ -1,9 +1,13 @@
+import os
 import requests
 import numpy as np
 import json
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from global_land_mask import globe
+import geopandas as gpd
+from shapely.geometry import Point
 
 # ─────────────────────────────────────────────
 # COUNTRY FALLBACKS
@@ -185,22 +189,93 @@ def fetch_all_scores(candidates):
 # STEP 3: Generate candidate grid
 # ─────────────────────────────────────────────
 
-def generate_grid(bounds, n_grid=15):
-    """
-    15x15 evenly spaced grid across the country = 225 candidate regions.
-    Each point represents a large zone (~90x120km for Pakistan).
-    """
-    lats = np.linspace(bounds["lat_min"], bounds["lat_max"], n_grid)
-    lons = np.linspace(bounds["lon_min"], bounds["lon_max"], n_grid)
-    candidates = []
-    for lat in lats:
-        for lon in lons:
-            candidates.append({
-                "lat": round(float(lat), 4),
-                "lon": round(float(lon), 4),
-                "solar_score": None,
-            })
-    return candidates
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+NE_SHAPEFILE = os.path.join(
+    BASE_DIR, "data", "natural_earth", "ne_110m_admin_0_countries.shp"
+)
+_WORLD_CACHE = None
+COUNTRY_ALIASES = {
+    "uk": "united kingdom",
+    "england": "united kingdom",
+    "scotland": "united kingdom",
+    "wales": "united kingdom",
+    "northern ireland": "united kingdom",
+    "usa": "united states of america",
+    "us": "united states of america",
+    "united states": "united states of america",
+    "uae": "united arab emirates",
+    "south korea": "korea, republic of",
+    "north korea": "korea, dem. rep.",
+    "ivory coast": "cote d'ivoire",
+}
+
+
+def _load_world():
+    global _WORLD_CACHE
+    if _WORLD_CACHE is not None:
+        return _WORLD_CACHE
+    if not os.path.exists(NE_SHAPEFILE):
+        print(f"  Warning: Natural Earth shapefile not found at {NE_SHAPEFILE}")
+        return None
+    try:
+        _WORLD_CACHE = gpd.read_file(NE_SHAPEFILE)
+    except Exception as e:
+        print(f"  Warning: could not load country polygons ({e})")
+        return None
+    return _WORLD_CACHE
+
+
+def get_country_polygon(country_name):
+    world = _load_world()
+    if world is None:
+        return None
+
+    name = " ".join(country_name.lower().split())
+    name = COUNTRY_ALIASES.get(name, name)
+    for col in ["NAME", "ADMIN", "SOVEREIGNT", "NAME_EN", "BRK_NAME"]:
+        if col not in world.columns:
+            continue
+        series = world[col].astype(str).str.lower()
+        match = world[series == name]
+        if match.empty:
+            match = world[series.str.contains(name)]
+        if not match.empty:
+            return match.geometry.values[0]
+
+    print(f"  Warning: no polygon match found for '{country_name}'")
+    return None
+
+
+def generate_grid(bounds, country_name, n_candidates=225):
+    country_polygon = get_country_polygon(country_name)
+    n_grid = 15
+
+    while True:
+        candidates = []
+        lats = np.linspace(bounds["lat_min"], bounds["lat_max"], n_grid)
+        lons = np.linspace(bounds["lon_min"], bounds["lon_max"], n_grid)
+
+        for lat in lats:
+            for lon in lons:
+                if not globe.is_land(lat, lon):
+                    continue
+                if country_polygon is not None:
+                    if not country_polygon.contains(Point(lon, lat)):
+                        continue
+                candidates.append({
+                    "lat": round(float(lat), 4),
+                    "lon": round(float(lon), 4),
+                    "solar_score": None,
+                })
+
+        if len(candidates) >= n_candidates:
+            step = len(candidates) / n_candidates
+            candidates = [candidates[int(i * step)] for i in range(n_candidates)]
+            print(f"  Grid {n_grid}x{n_grid} → exactly {len(candidates)} valid candidates")
+            return candidates
+
+        print(f"  Grid {n_grid}x{n_grid} gave only {len(candidates)} valid points, increasing...")
+        n_grid += 2
 
 
 # ─────────────────────────────────────────────
@@ -247,7 +322,7 @@ if __name__ == "__main__":
     print(f"    Size: ~{lat_size*111:.0f}km × {lon_size*111:.0f}km")
 
     print("\n[2] Generating 15×15 candidate grid...")
-    candidates = generate_grid(bounds, n_grid=15)
+    candidates = generate_grid(bounds, country, n_candidates=225)
     cell_km = (lat_size * 111) / 15
     print(f"    {len(candidates)} candidate regions (~{cell_km:.0f}km per cell)")
 
