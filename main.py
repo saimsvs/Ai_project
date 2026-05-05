@@ -247,9 +247,11 @@ if __name__ == "__main__":
         raise SystemExit(0)
 
     app = create_app()
-    url = "http://127.0.0.1:5000"
-    try:
-        webbrowser.open(url)
-    except Exception:
-        pass
-    app.run(host="127.0.0.1", port=5000, debug=False)
+    port = int(os.environ.get("PORT", "5000"))
+    if "PORT" not in os.environ:
+        url = f"http://127.0.0.1:{port}"
+        try:
+            webbrowser.open(url)
+        except Exception:
+            pass
+    app.run(host="0.0.0.0", port=port, debug=False)

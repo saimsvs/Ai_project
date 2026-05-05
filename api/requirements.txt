@@ -1,6 +1,0 @@
-Flask
-geopandas
-global-land-mask
-numpy
-requests
-shapely
