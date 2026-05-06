@@ -129,6 +129,13 @@ def create_app():
         "last_step": None,
     }
 
+    @app.after_request
+    def add_cors_headers(response):
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Methods"] = "GET,POST,OPTIONS"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+        return response
+
     def safe_run(script_name, *args):
         with lock:
             stdout, stderr, elapsed = run_script_capture(script_name, *args)
@@ -137,6 +144,10 @@ def create_app():
     @app.get("/")
     def index():
         return render_template("index.html")
+
+    @app.get("/health")
+    def health():
+        return jsonify({"ok": True})
 
     @app.post("/set-country")
     def set_country():
