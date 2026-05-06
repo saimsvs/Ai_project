@@ -1,3 +1,5 @@
+const API_BASE = "https://aiproject-production-aad9.up.railway.app";
+
 const logEl = document.getElementById("log");
 const statusEl = document.getElementById("status");
 const winnerNameEl = document.getElementById("winnerName");
@@ -32,7 +34,8 @@ function setStatus(message) {
 }
 
 async function postJson(url, payload) {
-  const response = await fetch(url, {
+  const target = `${API_BASE}${url}`;
+  const response = await fetch(target, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload || {}),
