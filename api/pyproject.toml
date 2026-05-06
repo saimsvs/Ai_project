@@ -1,0 +1,10 @@
+[project]
+name = "ai-project-backend"
+version = "0.1.0"
+description = "Railway backend adapter for Vercel build"
+requires-python = ">=3.10"
+dependencies = [
+  "Flask",
+  "numpy",
+  "requests",
+]
