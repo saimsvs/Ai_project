@@ -1,4 +1,5 @@
 Flask
+gunicorn
 geopandas
 global-land-mask
 numpy
