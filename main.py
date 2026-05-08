@@ -14,6 +14,23 @@ _VENV_PY = os.path.join(_BASE_DIR, ".venv", "bin", "python")
 if os.path.exists(_VENV_PY) and os.path.realpath(sys.executable) != os.path.realpath(_VENV_PY):
     os.execv(_VENV_PY, [_VENV_PY] + sys.argv)
 
+
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+def run_script_capture(script_name, *args):
+    script_path = os.path.join(BASE_DIR, script_name)
+    start = time.time()
+    result = subprocess.run(
+        [sys.executable, script_path, *args],
+        check=True,
+        capture_output=True,
+        text=True,
+        cwd=BASE_DIR
+    )
+    elapsed = round(time.time() - start, 2)
+    return result.stdout, result.stderr, elapsed
+
 # ─────────────────────────────────────────────
 # MAIN — Solar Panel Placement Optimizer
 # Runs: data pipeline → GA → PSO → SA
@@ -251,13 +268,13 @@ def create_app():
 # ─────────────────────────────────────────────
 # MAIN
 # ─────────────────────────────────────────────
+app = create_app()
 
 if __name__ == "__main__":
     if "--cli" in sys.argv:
         run_cli()
         raise SystemExit(0)
 
-    app = create_app()
     port = int(os.environ.get("PORT", "5000"))
     if "PORT" not in os.environ:
         url = f"http://127.0.0.1:{port}"
