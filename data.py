@@ -160,7 +160,7 @@ def fetch_all_scores(candidates):
         score, source = fetch_solar_score(loc["lat"], loc["lon"])
         return idx, loc, score, source
 
-    max_workers = 25
+    max_workers = 5
     completed = 0
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = [executor.submit(task, i, loc) for i, loc in enumerate(candidates)]
