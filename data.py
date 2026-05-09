@@ -246,9 +246,9 @@ def get_country_polygon(country_name):
     return None
 
 
-def generate_grid(bounds, country_name, n_candidates=100):
+def generate_grid(bounds, country_name, n_candidates=225):
     country_polygon = get_country_polygon(country_name)
-    n_grid = 10
+    n_grid = 15
 
     while True:
         candidates = []
@@ -321,9 +321,9 @@ if __name__ == "__main__":
     print(f"    Lon: {bounds['lon_min']} → {bounds['lon_max']}")
     print(f"    Size: ~{lat_size*111:.0f}km × {lon_size*111:.0f}km")
 
-    print("\n[2] Generating 10×10 candidate grid...")
-    candidates = generate_grid(bounds, country, n_candidates=100)
-    cell_km = (lat_size * 111) / 10
+    print("\n[2] Generating 15×15 candidate grid...")
+    candidates = generate_grid(bounds, country, n_candidates=225)
+    cell_km = (lat_size * 111) / 15
     print(f"    {len(candidates)} candidate regions (~{cell_km:.0f}km per cell)")
 
     print("\n[3] Fetching real solar irradiance per region...")
